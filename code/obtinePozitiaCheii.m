@@ -1,4 +1,4 @@
-function [ c ] = obtinePozitiaCheii( parameters )
+function [row, col] = obtinePozitiaCheii( parameters )
 
 coordonateCheie = zeros(0,4);
 
@@ -11,7 +11,8 @@ imgCheie = rgb2gray(parameters.clef);
 
 size(imgCheie);
 eps = 0.1;
-
+row = zeros(0,1);
+col = zeros(0,1);
 while(size(imgCheie,1) > 30)
     
     imgCheie = imresize(imgCheie,0.9);
@@ -22,9 +23,11 @@ while(size(imgCheie,1) > 30)
     
     c = normxcorr2(imgCheie,img);
     
-    [row,col] = find(c > 0.5);
-    disp(row);
-    disp(col);
+    [row_aux,col_aux] = find(c > 0.5);
+    
+    
+    row = [row; row_aux-x_cheie, row_aux];
+    col = [col; col_aux-y_cheie, col_aux];
     
     max_val = max(c(:));
     
@@ -48,18 +51,19 @@ while(size(imgCheie,1) > 30)
 %     disp('xoffset');
 %     disp(xoffSet);
     
-    figure()
-    imshow(img);
+    %figure()
     
+    %imshow(img);
+    %imtool(img);
     hold on;
     
     
-    for i = 1:size(row,1)
-        x = [ row(i) - x_cheie, row(i), row(i) , row(i) - x_cheie, row(i) - x_cheie];
-        y = [ col(i) - y_cheie, col(i) - y_cheie, col(i) , col(i) , col(i) - y_cheie];
+    for i = 1:size(row_aux,1)
+        x = [ row_aux(i) - x_cheie, row_aux(i), row_aux(i) , row_aux(i) - x_cheie, row_aux(i) - x_cheie];
+        y = [ col_aux(i) - y_cheie, col_aux(i) - y_cheie, col_aux(i) , col_aux(i) , col_aux(i) - y_cheie];
         plot( y, x, 'g-','linewidth',1);
     end
-    pause();
+    %pause();
     hold off;
     
     

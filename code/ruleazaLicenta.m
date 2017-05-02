@@ -11,8 +11,10 @@ parameters.blackNote = imread('../data/images/BlackDown3.png');
 parameters.stave = imread('../data/images/Portativ4.png');
 
 
-img = imread('../data/images/jingle-bells-2.jpeg');
-
+%img = imread('../data/images/jingle-bells-2.jpeg');
+%img = imread('../data/images/hallelujah.jpg');
+%img = imread('../data/images/Lion.jpg');
+img = imread('../data/images/Bohemian.jpg');
 size(img);
 %img = rgb2gray(img);
 %imtool(img);
@@ -24,9 +26,27 @@ parameters.img = img;
 
 parameters.cheie = imread('../data/images/cheia_sol.png');
 
-%result = obtinePozitiaCheii(parameters);
+[row,col] = obtinePozitiaCheii(parameters);
+
+treshold = size(img,2)/4;
+[row,col] = eliminaCheiFalse(row,col,treshold);
+
+figure()
+    
+    imshow(img);
+    %imtool(img);
+    hold on;
+    
+    
+    for i = 1:size(row,1)
+        x = [ row(i,1), row(i,2), row(i,2) , row(i,1), row(i,1)];
+        y = [ col(i,1), col(i,1), col(i,2) , col(i,2), col(i,1)];
+        plot( y, x, 'g-','linewidth',1);
+    end
+    %pause();
+    hold off;
 %result = obtinePozitiaNotelorNegre(parameters);
-result = obtinePozitiaNotelorAlbe(parameters);
+%result = obtinePozitiaNotelorAlbe(parameters);
 %result = obtinePozitiaPortativului(parameters);
 %imshow(img);
 
