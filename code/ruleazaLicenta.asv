@@ -11,14 +11,13 @@ parameters.blackNote = imread('../data/images/BlackDown3.png');
 parameters.stave = imread('../data/images/Portativ4.png');
 
 
-%img = imread('../data/images/jingle-bells-2.jpeg');
-img = imread('../data/images/hallelujah.jpg');
+img = imread('../data/images/jingle-bells-2.jpeg');
+%img = imread('../data/images/hallelujah.jpg');
 %img = imread('../data/images/Lion.jpg');
 %img = imread('../data/images/Bohemian.jpg');
 % size(img);
 %img = rgb2gray(img);
 %imtool(img);
-
 
 %vom afisa anotarile aici
 %marcheazaAnotari(img);
@@ -51,12 +50,12 @@ disp(size(img));
 for i = 1:size(row,1)
     sus = min(row(i,2),size(img,1));
     jos = max(row(i,1),0);
-    imag = img(jos:sus,:);
-    
-    
-    obtinePozitiaPortativului(imag); 
+    parameters.imag = img(jos:sus,:);
+    imshow(parameters.imag);
+    pause();
+    obtinePozitiaPortativului(parameters); 
 end
-
+result = obtinePozitiaPortativului(parameters);
 
 
 

@@ -1,0 +1,16 @@
+function [ c ] = obtinePozitiaPortativului( parameters )
+
+if(size(parameters.img,3) > 1)
+    img = rgb2gray(parameters.img);
+else
+    img = parameters.img;
+end
+
+binary_image = edge(img);
+
+imshow(binary
+
+
+
+
+end

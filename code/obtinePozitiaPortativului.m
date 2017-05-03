@@ -1,99 +1,47 @@
-function [ c ] = obtinePozitiaPortativului( parameters )
+function [  ] = obtinePozitiaPortativului( imag )
 
-if(size(parameters.img,3) > 1)
-    img = rgb2gray(parameters.img);
+if(size(imag,3) > 1)
+    imag = rgb2gray(imag);
 else
-    img = parameters.img;
+    imag = imag;
 end
-if(size(parameters.stave,3) > 1)
-    imgPortativ = rgb2gray(parameters.stave);
-else
-    imgPortativ = parameters.stave;
-end
+originalBW = imag;
+originalBW = imcomplement(originalBW);
+%originalBW = edge(imag,0.2);
+%originalBW = imcomplement(originalBW);
+se = strel('line',15,3);
+%originalBW = edge(originalBW,0.1);
+erodeBW = imerode(originalBW,se);
+dilateBW = imdilate(erodeBW,se);
 
-while(size(imgPortativ,1) > 30)
-    
-    imgPortativ = imresize(imgPortativ,0.9);
-    %imshow(imgCheie);
-    
-    x_cheie = size(imgPortativ,1);
-    y_cheie = size(imgPortativ,2);
-    
-    c = normxcorr2(imgPortativ,img);
-    
-    [row,col] = find(c > 0.5);
-    disp(row);
-    disp(col);
-    
-    max_val = max(c(:));
-    
-    
-    disp(max_val);
-    
-    %[ypeak, xpeak] = find(c==max(c(:)));
-    %     disp('row');
-    %     disp(row);
-    %     disp('col');
-    %     disp(col);
-    %     disp('peak');
-    %     disp(ypeak);
-    %     disp(xpeak);
-    
-    %     yoffSet = ypeak-size(imgCheie,1);
-    %     xoffSet = xpeak-size(imgCheie,2);
-    %
-    %     disp('yoffset');
-    %     disp(yoffSet);
-    %     disp('xoffset');
-    %     disp(xoffSet);
-    
-    figure()
-    imshow(img);
-    
-    hold on;
-    
-    
-    for i = 1:size(row,1)
-        x = [ row(i) - x_cheie, row(i), row(i) , row(i) - x_cheie, row(i) - x_cheie];
-        y = [ col(i) - y_cheie, col(i) - y_cheie, col(i) , col(i) , col(i) - y_cheie];
-        plot( y, x, 'b-','linewidth',1);
-    end
-    pause();
-    hold off;
-    
-    
-    %     hFig = figure;
-    %     hAx  = axes;
-    %     imshow(img,'Parent', hAx);
-    %     imrect(hAx, [xoffSet+1, yoffSet+1, size(imgCheie,2), size(imgCheie,1)]);
-    
-    close all;
-    
+se = strel('line',4,4);
+%originalBW = edge(originalBW,0.1);
+erodeBW = imerode(dilateBW,se);
+dilateBW = imdilate(erodeBW,se);
+
+[H,T,R] = hough(dilateBW);
+imshow(dilateBW);
+P  = houghpeaks(H,5,'threshold',ceil(0.7*max(H(:))));
+x = T(P(:,2)); y = R(P(:,1));
+
+lines = houghlines(dilateBW,T,R,P,'FillGap',5,'MinLength',7);
+figure, imshow(imag), hold on
+max_len = 0;
+for k = 1:length(lines)
+   xy = [lines(k).point1; lines(k).point2];
+   plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
+
+   % Plot beginnings and ends of lines
+   plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','yellow');
+   plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
+
+   % Determine the endpoints of the longest line segment
+   len = norm(lines(k).point1 - lines(k).point2);
+   if ( len > max_len)
+      max_len = len;
+      xy_long = xy;
+   end
 end
-%
-% c = normxcorr2(imgCheie,img);
-% %figure, surf(c), shading flat;
-%
-% [row,col] = find(c > 0.3);
-% disp(size(row));
-% % for i = 1:size(row,1)
-% %    disp(row(i)); disp(col(i));
-% % end
-% cl = clock;
-% disp(datestr(datenum(cl(4),cl(5),cl(6))));
-%
-% size(img)
-%
-% figure(4)
-% imshow(img);
-% hold on;
-% for i = 1:size(row,1)
-%     x = [ row(i), row(i) + 20, row(i) + 20, row(i), row(i)];
-%     y = [ col(i), col(i), col(i) + 20, col(i) + 20, col(i) ];
-%     plot( x, y, 'g-','linewidth',1);
-% end
-%
-% hold off;
 
 
 
