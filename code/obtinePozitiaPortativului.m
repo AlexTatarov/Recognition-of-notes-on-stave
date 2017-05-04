@@ -6,7 +6,11 @@ else
     imag = imag;
 end
 originalBW = imag;
-originalBW = imcomplement(originalBW);
+threshold = mean(originalBW(:));
+originalBW = originalBW < threshold;
+figure, imshow(originalBW);
+%keyboard;
+%originalBW = imcomplement(originalBW);
 %originalBW = edge(imag,0.2);
 %originalBW = imcomplement(originalBW);
 se = strel('line',15,3);
@@ -14,18 +18,20 @@ se = strel('line',15,3);
 erodeBW = imerode(originalBW,se);
 dilateBW = imdilate(erodeBW,se);
 
-se = strel('line',4,4);
-%originalBW = edge(originalBW,0.1);
-erodeBW = imerode(dilateBW,se);
-dilateBW = imdilate(erodeBW,se);
+% se = strel('line',4,4);
+% %originalBW = edge(originalBW,0.1);
+% erodeBW = imerode(dilateBW,se);
+% dilateBW = imdilate(erodeBW,se);
 
 [H,T,R] = hough(dilateBW);
-imshow(dilateBW);
-P  = houghpeaks(H,5,'threshold',ceil(0.7*max(H(:))));
-x = T(P(:,2)); y = R(P(:,1));
+%imshow(dilateBW);
+P  = houghpeaks(H,25,'threshold',ceil(0.07*max(H(:))),'NHoodSize',[1 1]);
+%x = T(P(:,2)); y = R(P(:,1));
+figure, imagesc(H);
 
-lines = houghlines(dilateBW,T,R,P,'FillGap',5,'MinLength',7);
-figure, imshow(imag), hold on
+lines = houghlines(dilateBW,T,R,P,'FillGap',5,'MinLength',size(originalBW,2)/2);
+%figure, imshow(erodeBW), hold on
+figure, imshow(dilateBW), hold all
 max_len = 0;
 for k = 1:length(lines)
    xy = [lines(k).point1; lines(k).point2];
@@ -43,6 +49,7 @@ for k = 1:length(lines)
    end
 end
 
+keyboard;
 
 
 
