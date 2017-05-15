@@ -12,10 +12,10 @@ parameters.stave = imread('../data/images/Portativ4.png');
 
 
 %img = imread('../data/images/jingle-bells-2.jpeg');
-img = imread('../data/images/hallelujah.jpg');
-%img = imread('../data/images/Lion.jpg');
+%img = imread('../data/images/hallelujah.jpg');
+img = imread('../data/images/Lion.jpg');
 %img = imread('../data/images/Bohemian.jpg');
-% size(img);
+%size(img);
 %img = rgb2gray(img);
 %imtool(img);
 
@@ -32,29 +32,37 @@ parameters.cheie = imread('../data/images/cheia_sol.png');
 treshold = size(img,2)/4;
 [row,col] = eliminaCheiFalse(row,col,treshold);
 
-figure()
-
-imshow(img);
+% figure()
+% 
+% imshow(img);
 %imtool(img);
-hold on;
+%hold on;
 
 
 for i = 1:size(row,1)
     x = [ row(i,1), row(i,2), row(i,2) , row(i,1), row(i,1)];
     y = [ col(i,1), col(i,1), col(i,2) , col(i,2), col(i,1)];
-    plot( y, x, 'g-','linewidth',1);
+    %plot( y, x, 'g-','linewidth',1);
 end
 %pause();
-hold off;
-figure();
-disp(size(img));
+%hold off;
+%disp(size(img));
+imshow(img);
+size(img)
+d1 = size(img,1);
+d2 = size(img,2);
+gap = 5;
 for i = 1:size(row,1)
     sus = min(row(i,2),size(img,1));
     jos = max(row(i,1),0);
-    imag = img(jos:sus,:);
-    
-    
-    obtinePozitiaPortativului(imag); 
+    imag = img(jos:sus,1:d2);
+    validare = false;
+    lines = obtinePozitiaPortativului(imag,gap);
+    while(validareLinii(lines) == false)
+        gap = gap + 5;
+        lines = obtinePozitiaPortativului(imag,gap);
+    end
+     
 end
 
 
