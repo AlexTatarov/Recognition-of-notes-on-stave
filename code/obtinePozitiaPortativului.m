@@ -9,16 +9,11 @@ originalBW = imag;
 threshold = mean(originalBW(:));
 originalBW = originalBW < threshold;
 
-%figure, imshow(originalBW);
-%keyboard;
-%originalBW = imcomplement(originalBW);
-%originalBW = edge(imag,0.2);
-%originalBW = imcomplement(originalBW);
-se = strel('line',13,3);
+
+se = strel('line',13,0);
 %originalBW = edge(originalBW,0.1);
 erodeBW = imerode(originalBW,se);
 dilateBW = imdilate(erodeBW,se);
-
 % se = strel('line',4,4);
 % %originalBW = edge(originalBW,0.1);
 % erodeBW = imerode(dilateBW,se);
@@ -34,15 +29,7 @@ lines = houghlines(dilateBW,T,R,P,'FillGap',gapSize,'MinLength',size(originalBW,
 %figure, imshow(erodeBW), hold on
 
 
-% max_len = 0;
-% for i = 1:length(lines)
-%     disp(getfield(lines(i),'point1'));
-%     disp(getfield(lines(i),'point2'));
-%     disp(getfield(lines(i),'theta'));
-%     disp(getfield(lines(i),'rho'));
-% end
 
-%afisareLinii(lines,dilateBW);
 
 
 

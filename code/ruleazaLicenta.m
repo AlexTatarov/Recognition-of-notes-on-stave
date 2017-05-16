@@ -55,18 +55,21 @@ gap = 5;
 for i = 1:size(row,1)
     sus = min(row(i,2) + 5,size(img,1));
     jos = max(row(i,1) - 5,1);
-    imag = img(jos:sus,1:d2);
+    lineImg = img(jos:sus,1:d2);
     validation = false;
     
     while(validation == false)
-        [lines, imgBW] = obtinePozitiaPortativului(imag,gap);
+        [lines, imgBW] = obtinePozitiaPortativului(lineImg,gap);
         [lines,validation] = validareLinii(lines);
         gap = gap + 5;
     end
     
     afisareLinii(lines,imgBW);
-    
+    obtinePozitiaNotelor(lineImg);
 end
+
+
+
 
 
 
