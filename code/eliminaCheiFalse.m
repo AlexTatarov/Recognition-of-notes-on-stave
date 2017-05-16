@@ -35,9 +35,9 @@ for i = 2:m2
     end
 end
 
-disp('rows');
+%disp('rows');
 %disp(rows);
-disp('cols');
+%disp('cols');
 %disp(cols);
 [maxim1,poz1] = max(sum1);
 [maxim2,poz2] = max(sum2);
@@ -57,9 +57,6 @@ for i = size(rows,1):-1:1
     i = min(i,size(rows,1));
    for j = i-1:-1:1
        i = min(i,size(rows,1));
-       disp(size(rows,1));
-       disp(i);
-       disp(j);
        
        if((i ~= j) && (abs(cols(j,1) - cols(i,1)) < 11) && (abs(rows(j,1) - rows(i,1)) < 11) && (abs(cols(j,2) - cols(i,2)) < 11) && (abs(rows(j,2) - rows(i,2)) < 11))
            rows(j,:) = [];
@@ -70,7 +67,7 @@ end
 
 for i = 1:size(rows,1)
     X = [rows(i,1), rows(i,2),cols(i,1),cols(i,2)];
-   disp(X);
+   %disp(X);
 end
 % disp(rows);
 % disp(cols);

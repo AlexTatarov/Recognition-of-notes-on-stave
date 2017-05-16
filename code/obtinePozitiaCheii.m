@@ -9,7 +9,7 @@ else
 end
 imgCheie = rgb2gray(parameters.clef);
 
-size(imgCheie);
+
 eps = 0.1;
 row = zeros(0,1);
 col = zeros(0,1);
@@ -32,8 +32,8 @@ while(size(imgCheie,1) > 30)
     max_val = max(c(:));
     
     
-    disp(max_val);
-    
+%     disp(max_val);
+%     
     %[ypeak, xpeak] = find(c==max(c(:)));
     %     disp('row');
     %     disp(row);
