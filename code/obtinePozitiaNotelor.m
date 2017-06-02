@@ -1,20 +1,11 @@
-function [  ] = obtinePozitiaNotelor( img )
+function [  ] = obtinePozitiaNotelor(parameters, img )
 
+tic;
 if(size(img,3) > 1)
     img = rgb2gray(img);
 end
-
-original = img;
-threshold = mean(original(:));
-original = original < threshold;
-
-
-se = strel('line',11,90);
-
-erodeBW = imerode(original,se);
-dilateBW = imdilate(erodeBW,se);
-
-imshow(dilateBW);
+% try to detect black notes(1/4, 1/8, 1/16)
+rezultat = obtineNoteNegre(parameters,img);
 
 
 end

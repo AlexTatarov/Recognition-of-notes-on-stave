@@ -1,23 +1,40 @@
 %% aceasta este prima pagina a licentei
-%%la moment are loc doar afisarea imaginii upload-ate
+
 
 parameters.dataPath = '../data/' ;
 parameters.imageFolder = fullfile(parameters.dataPath, 'images');
 parameters.annotations = 1;
 parameters.img = imread('../data/images/hallelujah.jpg');
-parameters.clef = imread('../data/images/cheia_sol.png');
-parameters.whiteNote = imread('../data/images/nota_alba_paint4.png');
-parameters.blackNote = imread('../data/images/BlackDown3.png');
+parameters.clef = imread('../data/images/signature-0.png');
+parameters.whiteUp = imread('../data/images/whiteUp.png');
+parameters.whiteDown = imread('../data/images/whiteDown.png');
+parameters.blackUp = imread('../data/images/blackUp.png');
+parameters.blackDown = imread('../data/images/blackDown.png');
 parameters.stave = imread('../data/images/Portativ4.png');
+parameters.diez = imread('../data/images/diez.png');
+parameters.bemol = imread('../data/images/bemol.png');
+parameters.becar = imread('../data/images/becar.png');
+parameters.bigBlackEllipse = imread('../data/images/blackB.png');
+parameters.smallBlackEllipse = imread('../data/images/blackS.png');
+parameters.cheie = imread('../data/images/signature-0.png');
 
 
-%img = imread('../data/images/jingle-bells-2.jpeg');
+
+img = imread('../data/images/jingle-bells-2.jpeg');
+% img = imread('../data/images/Simple.jpg');
+% img = imread('../data/images/Joy.jpg');
+% img = imread('../data/images/House.jpg');
+% img = imread('../data/images/Hungarian.jpg');
 img = imread('../data/images/hallelujah.jpg');
-%img = imread('../data/images/Lion.jpg');
-%img = imread('../data/images/Bohemian.jpg');
-%size(img);
-%img = rgb2gray(img);
-%imtool(img);
+% img = imread('../data/images/Lion.jpg');
+% img = imread('../data/images/Bohemian.jpg');
+% img = imread('../data/images/Vivaldi.jpg');
+% img = imread('../data/images/Scale1.jpg');
+% img = imread('../data/images/Scale2.png');
+% img = imread('../data/images/Simple.jpg');
+% size(img);
+% img = rgb2gray(img);
+% imtool(img);
 
 
 %vom afisa anotarile aici
@@ -25,37 +42,51 @@ img = imread('../data/images/hallelujah.jpg');
 
 parameters.img = img;
 
-parameters.cheie = imread('../data/images/cheia_sol.png');
 
-[row,col] = obtinePozitiaCheii(parameters);
+[row, col, clefHeight, clefWidth] = obtinePozitiaCheii(parameters);
 
 treshold = size(img,2)/4;
-[row,col] = eliminaCheiFalse(row,col,treshold);
+[row, col, clefHeight, clefWidth] = eliminaCheiFalse(row,col,clefHeight,clefWidth,treshold);
 
 % figure()
-% 
-% imshow(img);
-%imtool(img);
-%hold on;
+
+figure, imshow(img);
+
+hold on;
 
 
 for i = 1:size(row,1)
     x = [ row(i,1), row(i,2), row(i,2) , row(i,1), row(i,1)];
     y = [ col(i,1), col(i,1), col(i,2) , col(i,2), col(i,1)];
-    %plot( y, x, 'g-','linewidth',1);
+    plot( y, x, 'g-','linewidth',1);
 end
-%pause();
-%hold off;
-%disp(size(img));
+hold off;
 
-size(img)
+
+% x = obtineSemneCheie(parameters,row,col);
+
+% sort all clefs
+for i = 1:size(row,1)
+    for j = i+1:size(row,1)
+        if((i ~= j) && (row(i,1) > row(j,1)))
+            row([i,j],:) = row([j,i],:);
+        end
+    end
+end
+
+for i = 1:size(row,1)
+   disp(clefWidth(i)); 
+end
+
 d1 = size(img,1);
 d2 = size(img,2);
 gap = 5;
+disp(size(row));
+
 for i = 1:size(row,1)
-    sus = min(row(i,2) + 5,size(img,1));
-    jos = max(row(i,1) - 5,1);
-    lineImg = img(jos:sus,1:d2);
+    sus = min(row(i,2) + round(clefHeight(i)/2),size(img,1));
+    jos = max(row(i,1) - round(clefHeight(i)/2),1);
+    lineImg = img(jos:sus,clefWidth(i):d2);
     validation = false;
     
     while(validation == false)
@@ -63,9 +94,12 @@ for i = 1:size(row,1)
         [lines,validation] = validareLinii(lines);
         gap = gap + 5;
     end
-    
-    afisareLinii(lines,imgBW);
-    obtinePozitiaNotelor(lineImg);
+%     afisareLinii(lines,imgBW);
+    parameters.horizontalLines = lines;
+    parameters.currentClefWidth = clefWidth(i);
+    parameters.currentClefHeight = clefHeight(i);
+    % obtain the position of notes on that stave
+    obtinePozitiaNotelor(parameters,lineImg);
 end
 
 
@@ -74,10 +108,9 @@ end
 
 
 
-%result = obtinePozitiaNotelorNegre(parameters);
-%result = obtinePozitiaNotelorAlbe(parameters);
+% result = obtinePozitiaNotelorNegre(parameters);
+% result = obtinePozitiaNotelorAlbe(parameters);
 
-%imshow(img);
 
 
 
