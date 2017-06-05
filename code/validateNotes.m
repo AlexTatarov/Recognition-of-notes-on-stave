@@ -1,4 +1,5 @@
-function [rows,cols,height,width] = eliminaCheiFalse(rows,cols,height,width,threshold)
+function [ rows, cols ] = validateNotes(parameters, rows, cols, type)
+% validate notes by eliminating the overlaping/redundant detections
 
 % initialize variables
 [h,~] = size(rows);
@@ -18,8 +19,12 @@ fr_array2 = zeros(1,m2);
 
 % create a frequency array
 for i = 1:h
-    fr_array1(cols(i,1)) = fr_array1(cols(i,1)) + 1;
-    fr_array2(cols(i,2)) = fr_array2(cols(i,2)) + 1;
+    if (cols(i,1) > 0)
+        fr_array1(cols(i,1)) = fr_array1(cols(i,1)) + 1;
+    end
+    if (cols(i,2) > 0)
+        fr_array2(cols(i,2)) = fr_array2(cols(i,2)) + 1;
+    end
 end
 
 sum1 = zeros(1,m1);
@@ -49,36 +54,39 @@ end
 poz1 = poz1 - 3;
 poz2 = poz2 - 3;
 
-% eliminate all detections that are not in the search zone and are not
-% within limits of a threshold 
-for j = size(rows,1):-1:1;
-    if((abs(cols(j,1) - poz1) > 3) || (abs(cols(j,2) - poz2) > 3) || (cols(j,2) > threshold))
-       
-        rows(j,:) = [];
-        cols(j,:) = [];
-        height(j,:) = [];
-        width(j,:) = [];
-    end
-end
-
 % elimintate detections that overlap each other using the following
 % criteria: have two sides that are closer that the 'gap'
 gap = 11;
+if(type < 3)
+    gap = round(parameters.currentClefWidth/2);
+else
+    gap = 5;
+end
+
 for i = size(rows,1):-1:1
     i = min(i,size(rows,1));
    for j = i-1:-1:1
        i = min(i,size(rows,1));
        
        if((i ~= j) && ...
-                (((abs(cols(j,1) - cols(i,1)) < gap) && (abs(rows(j,2) - rows(i,2)) < gap)) ||...
-                ((abs(cols(j,1) - cols(i,1)) < gap) && (abs(rows(j,1) - rows(i,1)) < gap)) ||...
-                ((abs(cols(j,2) - cols(i,2)) < gap) && (abs(rows(j,2) - rows(i,2)) < gap)) ||...
-                ((abs(cols(j,2) - cols(i,2)) < gap) && (abs(rows(j,1) - rows(i,1)) < gap))))
+               (((abs(cols(j,1) - cols(i,1)) < gap) && (abs(rows(j,2) - rows(i,2)) < gap)) ||...
+               ((abs(cols(j,1) - cols(i,1)) < gap) && (abs(rows(j,1) - rows(i,1)) < gap)) ||...
+               ((abs(cols(j,2) - cols(i,2)) < gap) && (abs(rows(j,2) - rows(i,2)) < gap)) ||...
+               ((abs(cols(j,2) - cols(i,2)) < gap) && (abs(rows(j,1) - rows(i,1)) < gap))))
+           if(cols(i,1) > cols(j,1))
+                rows(i,:) = [];
+                cols(i,:) = [];
+           else 
+                rows(j,:) = [];
+                cols(j,:) = [];
+           end
            
-           rows(j,:) = [];
-           cols(j,:) = [];
-           height(j) = [];
-           width(j) = [];
+           
+           
+           
+           
+           %            height(j) = [];
+           %            width(j) = [];
        end
    end
 end
@@ -87,6 +95,9 @@ end
 for i = 1:size(rows,1)
     X = [rows(i,1), rows(i,2),cols(i,1),cols(i,2)];
 end
+
+
+
 
 end
 

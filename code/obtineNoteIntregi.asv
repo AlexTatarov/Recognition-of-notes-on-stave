@@ -1,28 +1,32 @@
-function [ row,col ] = obtineNoteIntregi( parameters,img )
+function [ output_args ] = obtineNoteIntregi( input_args )
 %OBTINENOTEINTREGI Summary of this function goes here
 %   Detailed explanation goes here
 
 if(parameters.noteHeight >= 20)
     type = 0;
     black = rgb2gray(parameters.bigWhite);
+    widthThreshold = (parameters.currentClefWidth*3/7);
     maxThreshold = 0.65;
     repetitions = 100;
     
 elseif((parameters.noteHeight > 13) && (parameters.noteHeight < 20))
     type = 1;
-    black = rgb2gray(parameters.mediumWhite);
+    black = rgb2gray(parameters.);
+    widthThreshold = (parameters.currentClefWidth*3/7);
     maxThreshold = 0.65;
     repetitions = 7;
     
 elseif((parameters.noteHeight > 5 ) && (parameters.noteHeight <= 13))
     type = 2;
-    black = rgb2gray(parameters.smallWhite);
+    black = rgb2gray(parameters.smallBlackEllipse);
+    widthThreshold = (parameters.currentClefWidth*3/7);
     maxThreshold = 0.65;
     repetitions = 7;
     
 else
     type = 3;
-    black = rgb2gray(parameters.extraSmallWhite);
+    black = rgb2gray(parameters.extraSmallBlackEllipse);
+    widthThreshold = 2;
     repetitions = 1;
     maxThreshold = 0.8;
     

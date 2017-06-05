@@ -28,11 +28,4 @@ P  = houghpeaks(H,25,'threshold',ceil(0.07*max(H(:))),'NHoodSize',[1 1]);
 lines = houghlines(dilateBW,T,R,P,'FillGap',gapSize,'MinLength',size(originalBW,2)/2);
 %figure, imshow(erodeBW), hold on
 
-
-
-
-
-
-
-
 end

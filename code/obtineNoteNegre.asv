@@ -76,26 +76,33 @@ for i = 1:size(vertLines,2)
             maxThreshold = 0.65;
             repetitions = 100;
             
-        elseif((parameters.noteHeight > 13) && (parameters.noteHeight < 20))
+        elseif((parameters.noteHeight >= 15) && (parameters.noteHeight < 20))
             type = 1;
             black = rgb2gray(parameters.mediumBlackEllipse);
             widthThreshold = (parameters.currentClefWidth*3/7);
             maxThreshold = 0.65;
             repetitions = 7;
             
-        elseif((parameters.noteHeight > 5 ) && (parameters.noteHeight <= 13))
+        elseif((parameters.noteHeight >= 10) && (parameters.noteHeight < 15))
             type = 2;
             black = rgb2gray(parameters.smallBlackEllipse);
             widthThreshold = (parameters.currentClefWidth*3/7);
             maxThreshold = 0.65;
             repetitions = 7;
             
-        else
+        elseif((parameters.noteHeight >= 5 ) && (parameters.noteHeight < 10))
             type = 3;
+            black = rgb2gray(parameters.superSmallBlackEllipse);
+            widthThreshold = (parameters.currentClefWidth*3/7);
+            maxThreshold = 0.65;
+            repetitions = 7;
+            
+        else
+            type = 4;
             black = rgb2gray(parameters.extraSmallBlackEllipse);
             widthThreshold = 2;
             repetitions = 1;
-            maxThreshold = 0.8;
+            maxThreshold = 0.6;
             
         end
         %             disp(size(black));
@@ -110,7 +117,7 @@ for i = 1:size(vertLines,2)
         
         % resize the template
         while((size(black,1) > parameters.noteHeight + 1) && (maxim < 0.8) && (repetitions > 0))
-            %             figure,imshow(black);
+%                         figure,imshow(black);
             repetitions = repetitions - 1;
             %             disp('again');
             black = imresize(black,0.9);
@@ -150,21 +157,21 @@ for i = 1:size(vertLines,2)
                 type = 0;
                 half = rgb2gray(parameters.bigHalf);
                 widthThreshold = (parameters.currentClefWidth*3/7);
-                maxThreshold = 0.5;
+                maxThreshold = 0.55;
                 repetitions = 100;
                 
             elseif((parameters.noteHeight > 13) && (parameters.noteHeight < 20))
                 type = 1;
                 half = rgb2gray(parameters.mediumHalf);
                 widthThreshold = (parameters.currentClefWidth*3/7);
-                maxThreshold = 0.5;
+                maxThreshold = 0.65;
                 repetitions = 4;
                 
             elseif((parameters.noteHeight > 5 ) && (parameters.noteHeight <= 13))
                 type = 2;
                 half = rgb2gray(parameters.smallHalf);
                 widthThreshold = (parameters.currentClefWidth*3/7);
-                maxThreshold = 0.5;
+                maxThreshold = 0.65;
                 repetitions = 7;
                 
             else
@@ -172,7 +179,7 @@ for i = 1:size(vertLines,2)
                 half = rgb2gray(parameters.extraSmallHalf);
                 widthThreshold = 2;
                 repetitions = 1;
-                maxThreshold = 0.5;
+                maxThreshold = 0.55;
                 
             end
             
@@ -184,39 +191,39 @@ for i = 1:size(vertLines,2)
             end
             
             
-%             resize the template
-            while((size(half,1) > parameters.noteHeight + 1) && (maxim < 0.8) && (repetitions > 0))
-%                             figure,imshow(half);
-                repetitions = repetitions - 1;
-                %             disp('again');
-                half = imresize(half,0.9);
-                
-                %             disp(size(black));
-                %             disp(size(searchZone));
-                
-                
-                % make sure the template is not bigger than the search zone
-                if((size(half,2) > size(searchZone,2)) || (size(half,1) > size(searchZone,1)))
-                    continue;
-                end
-                
-                x_template = size(half,1);
-                y_template = size(half,2);
-                
-                c = normxcorr2(half,searchZone);
-                
-                maxim = max(c(:));
-                disp(maxim);
-                if(maxim > maxThreshold)
-                    [row_aux,col_aux] = find(c >= maxim*0.95);
-                    % for better placement on the stave detection
-                    %                 if(type < 3)
-                    %                     row_aux = row_aux - 1;
-                    %                 end
-                    row = [row; max(1,row_aux - x_template), row_aux];
-                    col = [col; max(1,l - addWidth + col_aux - y_template), l - addWidth + col_aux];
-                end
-            end
+            % resize the template
+%             while((size(half,1) > parameters.noteHeight + 1) && (maxim < 0.8) && (repetitions > 0))
+% %                             figure,imshow(half);
+%                 repetitions = repetitions - 1;
+%                 %             disp('again');
+%                 half = imresize(half,0.9);
+%                 
+%                 %             disp(size(black));
+%                 %             disp(size(searchZone));
+%                 
+%                 
+%                 % make sure the template is not bigger than the search zone
+%                 if((size(half,2) > size(searchZone,2)) || (size(half,1) > size(searchZone,1)))
+%                     continue;
+%                 end
+%                 
+%                 x_template = size(half,1);
+%                 y_template = size(half,2);
+%                 
+%                 c = normxcorr2(half,searchZone);
+%                 
+%                 maxim = max(c(:));
+%                 disp(maxim);
+%                 if(maxim > maxThreshold)
+%                     [row_aux,col_aux] = find(c >= maxim*0.95);
+%                     % for better placement on the stave detection
+%                     %                 if(type < 3)
+%                     %                     row_aux = row_aux - 1;
+%                     %                 end
+%                     row = [row; max(1,row_aux - x_template), row_aux];
+%                     col = [col; max(1,l - addWidth + col_aux - y_template), l - addWidth + col_aux];
+%                 end
+%             end
             
             
             

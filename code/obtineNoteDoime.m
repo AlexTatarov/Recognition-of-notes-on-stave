@@ -1,6 +1,7 @@
-function [ output_args ] = obtineNoteDoime( input_args )
-%OBTINENOTEDOIME Summary of this function goes here
-%   Detailed explanation goes here
+function [  ] = obtineNoteDoime( parameters, img )
+% obtain have notes using template matching
+
+
 
 
 end
