@@ -260,7 +260,6 @@ for i = 1:size(col,1)
     end
 end
 obtainNoteValue(parameters,row,col);
-keyboard();
 
 
 

@@ -24,12 +24,19 @@ parameters.mediumHalf = imread('../data/images/halfM.png');
 parameters.smallHalf = imread('../data/images/halfS.png');
 parameters.extraSmallHalf = imread('../data/images/halfXS.png');
 
+
+parameters.bigWhole = imread('../data/images/wholeB.png');
+parameters.mediumWhole = imread('../data/images/wholeM.png');
+parameters.mediumWhole = imread('../data/images/nota_alba_paint3.png');
+parameters.smallWhole = imread('../data/images/wholeS.png');
+parameters.extraSmallWhole = imread('../data/images/wholeXS.png');
+
 parameters.cheie = imread('../data/images/signature-0.png');
 
 
 
 img = imread('../data/images/jingle-bells-2.jpeg');
-img = imread('../data/images/Simple.jpg');
+% img = imread('../data/images/Simple.jpg');
 % img = imread('../data/images/Cobzar.png');
 % img = imread('../data/images/Joy.jpg');
 % img = imread('../data/images/House.jpg');
