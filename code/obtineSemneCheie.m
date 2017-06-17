@@ -1,193 +1,230 @@
-function [ x ] = obtineSemneCheie( parameters, row, col )
+function [ x ] = obtineSemneCheie( parameters, row, col, clefWidth )
 % if x < 0 then there are abs(x) flat keys(bemol)
 % if x > 0 then there are abs(x) sharp keys(diez)
 % if x = 0 then there are no musical signs
 
-if(size(parameters.img,3) > 1)
-    img = rgb2gray(parameters.img);
+if(size(parameters.firstImg,3) > 1)
+    img = rgb2gray(parameters.firstImg);
 else
-    img = parameters.img;
+    img = parameters.firstImg;
 end
 x = 0;
+[h,w] = size(img);
 
-% [h,w] = size(img);
-% 
-% % for i = 1:size(row,1)
-% %     disp('New entry');
-% %     left = col(i,1);
-% %     right = col(i,2) + ((col(i,2) - col(i,1))*3);
-% %     up = max(1,row(i,1)-5);
-% %     down = min(h,row(i,2));
-% %
-% %     searchZone = img(up:down,left:right);
-% % %     figure,imshow(searchZone);
-% %
-% %     maxim = 0;
-% %     i_maxim = 0;
-% %     % match signature against 7 existant sharp signatures
-% %     rowss = zeros(0,1);
-% %     colss = zeros(0,1);
-% %     for j = 1:7
-% %         disp('Different number');
-% %         sharpSignature = (['../data/images/signature-sharp',num2str(j),'.png']);
-% %
-% %         newSignature = rgb2gray(imread(sharpSignature));
-% %
-% %         while(size(newSignature,1) > size(searchZone,1) - 15)
-% %
-% %             newSignature = imresize(newSignature,0.9);
-% %
-% % %             figure,imshow(newSignature);
-% %
-% %             [x_sign,y_sign] = size(newSignature);
-% %
-% %             if((x_sign > down - up) || (y_sign > right - left))
-% %                 continue;
-% %             end
-% %
-% % %             figure,imshow(zonaCautare);
-% %             c = normxcorr2(newSignature,searchZone);
-% %
-% %             [row_aux,col_aux] = find(c > 0.8);
-% %
-% % %             disp(size(row_aux));
-% %
-% %             rowss = [rowss; row_aux-x_sign, row_aux];
-% %             colss = [colss; col_aux-y_sign, col_aux];
-% %
-% %             max_val = max(c(:));
-% %             disp(max_val);
-% %             if(max_val > maxim)
-% %
-% %                 maxim = max_val;
-% %                 i_maxim = j;
-% %
-% %             end
-% % %             figure()
-% %
-% %             %imshow(img);
-% %             %imtool(img);
-% %             hold on;
-% %
-% %
-% % %             for l = 1:size(row_aux,1)
-% % %                 x = [ row_aux(l) - x_cheie, row_aux(l), row_aux(l) , row_aux(l) - x_cheie, row_aux(l) - x_cheie];
-% % %                 y = [ col_aux(l) - y_cheie, col_aux(l) - y_cheie, col_aux(l) , col_aux(l) , col_aux(l) - y_cheie];
-% % %                 plot( y, x, 'g-','linewidth',1);
-% % %             end
-% %         end
-% %         disp(maxim);
-% %         disp(i_maxim);
-% %     end
-% % end
-% 
-% for i = 1:size(row,1)
-%     
-%     rowss = zeros(0,1);
-%     colss = zeros(0,1);
-% 
-%     left = col(i,1);
-%     right = col(i,2) + ((col(i,2) - col(i,1))*3);
-%     up = max(1,row(i,1)-5);
-%     down = min(h,row(i,2));
-%     
-%     searchZone = img(up:down,left:right);
-%     
-%     while(size(diez,1) > 10)
-%         
-%         diez = imresize(diez,0.9);
-%         
-%         [x_cheie,y_cheie] = size(diez);
-%         
-%         if ((x_cheie > down-up) || (y_cheie > right - left))
-%             continue;
-%         end
-%         
-%         figure,imshow(searchZone);
-%         
-%         c = normxcorr2(diez,searchZone);
-%         
-%         [row_aux,col_aux] = find(c > 0.5);
-%         
-%         disp(size(row_aux));
-%         
-%         rowss = [rowss; row_aux-x_cheie, row_aux];
-%         colss = [colss; col_aux-y_cheie, col_aux];
-%         
-%         max_val = max(c(:));
-%         disp(max_val);
-%         
-%         %
-%         %[ypeak, xpeak] = find(c==max(c(:)));
-%         %     disp('row');
-%         %     disp(row);
-%         %     disp('col');
-%         %     disp(col);
-%         %     disp('peak');
-%         %     disp(ypeak);
-%         %     disp(xpeak);
-%         
-%         %     yoffSet = ypeak-size(imgCheie,1);
-%         %     xoffSet = xpeak-size(imgCheie,2);
-%         %
-%         %     disp('yoffset');
-%         %     disp(yoffSet);
-%         %     disp('xoffset');
-%         %     disp(xoffSet);
-%         
-%         %figure()
-%         
-%         %imshow(img);
-%         %imtool(img);
-%         hold on;
-%         
-%         
-%         for i = 1:size(row_aux,1)
-%             x = [ row_aux(i) - x_cheie, row_aux(i), row_aux(i) , row_aux(i) - x_cheie, row_aux(i) - x_cheie];
-%             y = [ col_aux(i) - y_cheie, col_aux(i) - y_cheie, col_aux(i) , col_aux(i) , col_aux(i) - y_cheie];
-%             plot( y, x, 'g-','linewidth',1);
-%         end
-%         %pause();
-%         hold off;
-%         
-%     end
-%     
+right = col(1,2) + ((col(1,2) - col(1,1))*2);
+
+
+original = img(:,1:clefWidth(1)*2);
+figure,imshow(original);
+threshold = mean(original(:));
+
+original = original < threshold;
+se = strel('line',9,90);
+
+erodeBW = imerode(original,se);
+dilateBW = imdilate(erodeBW,se);
+[H,T,R] = hough(dilateBW,'Theta',-4:4);
+%imshow(dilateBW);
+P  = houghpeaks(H,200,'Threshold',0.03*max(H(:)),'NHoodSize',[1 1]);
+%x = T(P(:,2)); y = R(P(:,1));
+
+lines = houghlines(dilateBW,T,R,P,'FillGap',1,'MinLength',floor(parameters.noteHeight*1.7));
+
+horzLines = parameters.firstLines;
+height = parameters.noteHeight;
+
+% for i = 1:length(horzLines)
+%     disp(horzLines(i));
 % end
 
-for i = 1:size(row,1)
+% sort and unify lines
+for i = 1:length(lines)
+    for j = i + 1:length(lines)
+        if(lines(i).point1(:,1) > lines(j).point1(:,1))
+            lines([i,j]) = lines([j,i]);
+        end
+    end
+end
+% afisareLinii(lines,dilateBW);
+
+% unite lines
+d = length(lines);
+i = 1;
+while(i<d)
+    d = length(lines);
+    delete = false;
     
-    [h,w] = size(img);
+    for j = i+1:d
+        if(((abs(lines(i).point1(:,1) - lines(j).point1(:,1)) < 2) && ...
+                (abs(lines(i).point1(:,2) - lines(j).point1(:,2)) + ...
+                abs(lines(i).point2(:,2) - lines(j).point2(:,2)) <= height)) || ((abs(lines(i).point1(:,1) - lines(j).point1(:,1)) < 2)))
+            lines(i).point1(:,2) = min(lines(i).point1(:,2),lines(j).point1(:,2));
+            lines(i).point2(:,2) = max(lines(i).point2(:,2),lines(j).point2(:,2));
+            lines(j) = [];
+            delete = true;
+            break;
+        end
+    end
     
-    left = col(i,1) + round((col(i,2) - col(i,1))*2/3);
-    right = col(i,2) + ((col(i,2) - col(i,1))*3);
-    up = max(1,row(i,1)-5);
-    down = min(h,row(i,2));
-    
-    original = img(up:down,left:right);
-    
-    
-    threshold = mean(original(:));
-    original = original < threshold;
-    
-    
-    
-    
-    se = strel('line',9,90);
-    
-    erodeBW = imerode(original,se);
-    dilateBW = imdilate(erodeBW,se);
-    
-    figure,imshow(original);
-    [H,T,R] = hough(dilateBW,'Theta',-4:4);
-    %imshow(dilateBW);
-    P  = houghpeaks(H,50,'Threshold',0.05*max(H(:)),'NHoodSize',[1 1]);
-    %x = T(P(:,2)); y = R(P(:,1));
-    
-    figure,imshow(dilateBW);
-    lines = houghlines(dilateBW,T,R,P,'FillGap',3,'MinLength',3);
-    afisareLinii(lines,dilateBW);
+    if(delete == true)
+        d = length(lines);
+        continue;
+    else
+        i = i+1;
+    end
+    d = length(lines);
 end
 
+% for i = 1:length(horzLines)
+%     disp(horzLines(i));
+% end
+% disp('7777777777');
+% print lines
+% for i = 1:length(lines)
+%     disp(lines(i));
+% end
+
+
+% detect if there are possible sharp signs or flat ones
+if(length(lines) > 1)
+    %     disp(abs(lines(1).point1(:,2) - lines(2).point1(:,2)));
+    %     disp(ceil(height*0.7));
+    %     disp(abs(lines(1).point2(:,2) - lines(2).point2(:,2)));
+    if((abs(lines(1).point1(:,2) - lines(2).point1(:,2)) <= ceil(height*0.8)) && (abs(lines(1).point2(:,2) - lines(2).point2(:,2)) <= ceil(height*0.8)))
+        disp('am intrat pe diez');
+        for i = 1:length(lines)
+            
+            if((x == 0) && (abs(lines(i).point2(:,2) - horzLines(2).point1(:,2)) <= ceil(height/2))  ...
+                    && ((lines(i).point2(:,2) - lines(i).point1(:,2)) <= (3*height)) )
+                disp('este fa diez');
+                x = 1;
+                continue;
+            end
+            
+            if((x == 1) && ((lines(i).point2(:,2) <= horzLines(4).point1(:,2)) && (lines(i).point2(:,2) >= horzLines(3).point1(:,2)) )  ...
+                    && (abs(lines(i).point2(:,2) - lines(i).point1(:,2)) <= (3*height)) )
+                disp('este do diez');
+                x = 2;
+                continue;
+                
+            end
+%                         disp('---');
+%                         disp(abs(lines(i).point2(:,2) - horzLines(2).point1(:,2)));
+%                         disp(ceil(height/2));
+%                         disp((lines(i).point2(:,2) - lines(i).point1(:,2)));
+%                         disp(3*height);
+            if((x == 2) && (abs(lines(i).point2(:,2) - horzLines(2).point1(:,2)) - round(height/2) <= ceil(height/2) )  ...
+                    && ((lines(i).point2(:,2) - lines(i).point1(:,2)) <= (3*height)))
+                disp('este sol diez');
+                x = 3;
+                continue;
+                
+            end
+%             disp('---');
+%             disp(i);
+%                         disp(abs(lines(i).point2(:,2) - horzLines(3).point1(:,2))-round(height/2));
+%                         disp(ceil(height/2));
+%                         disp((lines(i).point2(:,2) - lines(i).point1(:,2)));
+%                         disp(3*height);
+            if((x == 3) && ((abs(lines(i).point2(:,2) - horzLines(3).point1(:,2)) - round(height/2)) <= ceil(height/2) ) ...
+                    && ((lines(i).point2(:,2) - lines(i).point1(:,2)) <= (3*height)))
+                disp('este re diez');
+                x = 4;
+                continue;
+                
+            end
+            
+            if((x == 4) && ((abs(lines(i).point2(:,2) - horzLines(5).point1(:,2)) <= ceil(height/2) ) ) ...
+                    && ((lines(i).point2(:,2) - lines(i).point1(:,2)) <= (3*height)) )
+                disp('este la diez');
+                x = 5;
+                continue;
+                
+            end
+            
+            if((x == 5) && (abs(lines(i).point2(:,2) - horzLines(3).point1(:,2)) < ceil(height/2)) ...
+                    && ((lines(i).point2(:,2) - lines(i).point1(:,2)) <= (3*height)) )
+                disp('este mi diez');
+                x = 6;
+                continue;
+                
+            end
+            
+            if((x == 6) && (abs(lines(i).point2(:,2) - horzLines.point1(:,1) - round(height/4)) < ceil(height/2))  ...
+                    && ((lines(i).point2(:,2) - lines(i).point1(:,2)) <= (3*height)) )
+                disp('este si diez');
+                x = 7;
+                continue;
+                
+            end
+            
+        end
+    end
+end
+if (x == 0)
+    disp('am intrat pe bemol');
+    for i = 1:length(lines)
+        
+        if((x == 0) && ((lines(i).point2(:,2) < horzLines(4).point1(:,2)) && (lines(i).point2(:,2) > horzLines(3).point1(:,2))) ...
+                && ((lines(i).point2(:,2) - lines(i).point1(:,2)) < (3*height)) )
+            disp('este si bemol');
+            x = -1;
+            continue;
+            
+        end
+        
+        if((x == -1) && ((lines(i).point2(:,2) < horzLines(4).point1(:,2)) && (lines(i).point2(:,2) > horzLines(3).point1(:,2)) )  ...
+                && (abs(lines(i).point2(:,2) - lines(i).point1(:,2)) < (3*height)) )
+            disp('este mi bemol');
+            x = -2;
+            continue;
+            
+        end
+        
+        if((x == -2) && (abs(lines(i).point2(:,2) - horzLines(2).point1(:,2)) < ceil(height/2) )  ...
+                && ((lines(i).point2(:,2) - lines(i).point1(:,2)) < (3*height)))
+            disp('este la bemol');
+            x = -3;
+            continue;
+            
+        end
+        
+        if((x == -3) && ((abs(lines(i).point2(:,2) - horzLines(3).point1(:,2)) - round(height/4)) < ceil(height/2) ) ...
+                && ((lines(i).point2(:,2) - lines(i).point1(:,2)) < (3*height)))
+            disp('este re bemol');
+            x = -4;
+            continue;
+            
+        end
+        
+        if((x == -4) && ((abs(lines(i).point2(:,2) - horzLines(5).point1(:,2)) < ceil(height/2) ) ) ...
+                && ((lines(i).point2(:,2) - lines(i).point1(:,2)) < (3*height)) )
+            disp('este sol bemol');
+            x = -5;
+            continue;
+            
+        end
+        
+        if((x == -5) && (abs(lines(i).point2(:,2) - horzLines(3).point1(:,2)) < ceil(height/2)) ...
+                && ((lines(i).point2(:,2) - lines(i).point1(:,2)) < (3*height)) )
+            disp('este do bemol');
+            x = -6;
+            continue;
+            
+        end
+        
+        if((x == -6) && (abs(lines(i).point2(:,2) - horzLines.point1(:,1) - round(height/4)) < ceil(height/2))  ...
+                && ((lines(i).point2(:,2) - lines(i).point1(:,2)) < (3*height)) )
+            disp('este fa bemol');
+            x = -7;
+            continue; 
+        end 
+    end
+end
+
+afisareLinii(lines,dilateBW);
+fprintf('Avem raspunsul %d\n',x);
+% keyboard();
 
 end
 

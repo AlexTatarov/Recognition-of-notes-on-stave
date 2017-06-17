@@ -1,4 +1,4 @@
-function [ rows, cols ] = validateNotes(parameters, rows, cols, type)
+function [ rows, cols, foundLines ] = validateNotes(parameters, rows, cols, type, foundLines)
 % validate notes by eliminating the overlaping/redundant detections
 
 
@@ -76,9 +76,15 @@ if (size(cols,1) > 0)
                     ((abs(cols(j,2) - cols(i,2)) < gap) && (abs(rows(j,2) - rows(i,2)) < gap)) ||...
                     ((abs(cols(j,2) - cols(i,2)) < gap) && (abs(rows(j,1) - rows(i,1)) < gap))))
                 if(cols(i,1) > cols(j,1))
+                    if (type == 1)
+                        foundLines(i) = [];
+                    end
                     rows(i,:) = [];
                     cols(i,:) = [];
                 else
+                    if (type == 1)
+                        foundLines(j) = [];
+                    end
                     rows(j,:) = [];
                     cols(j,:) = [];
                 end

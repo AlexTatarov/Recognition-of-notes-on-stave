@@ -15,7 +15,7 @@ row = zeros(0,1);
 col = zeros(0,1);
 height = zeros(0,1);
 width = zeros(0,1);
-
+% figure,imshow(img);
 %resize the clef for further template matching (t.m.)
 while(size(imgCheie,1) > 30)
     
@@ -45,7 +45,7 @@ while(size(imgCheie,1) > 30)
     
     % plot all detections
     
-%     figure,imshow(img);
+    
 %     hold all;
 %     for i = 1:size(row_aux,1)
 %         x = [ row_aux(i) - x_cheie, row_aux(i), row_aux(i) , row_aux(i) - x_cheie, row_aux(i) - x_cheie];
@@ -53,8 +53,7 @@ while(size(imgCheie,1) > 30)
 %         plot( y, x, 'g-','linewidth',1);
 %     end
 %     hold off;
-    
-    close all;
+%     close all;
     
 end
 

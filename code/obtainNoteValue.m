@@ -4,7 +4,7 @@ function [ ] = obtainNoteValue( parameters, row, col )
 
 linii = parameters.horizontalLines;
 distance = parameters.noteHeight;
-fprintf('Numarul de linii este %d\n',length(linii));
+% fprintf('Numarul de linii este %d\n',length(linii));
 % for i = 1:length(linii)
 %     fprintf('Valoarea este %d\n',i);
 %     disp(linii(i).point1(:,1));

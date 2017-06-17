@@ -26,7 +26,7 @@ while(i < d)
     end
     
     %If a line is deleted, we search through all the lines from the
-    %beginning of the array because of 'Index exceeds matrix dimensions' in Matlab
+    %beginning of the array because of 'Index exceeds matrix dimensions' error in Matlab
     if(delete == true)
         d = length(lines);
         continue;
