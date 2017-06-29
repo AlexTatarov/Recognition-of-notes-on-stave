@@ -5,7 +5,7 @@ if(size(img,3) > 1)
     img = rgb2gray(img);
 end
 % try to detect black notes(1/4, 1/8, 1/16)
-[row,col,type] = obtineNoteNegre(parameters,img);
+[row,col,type,notesLength] = obtineNoteNegre(parameters,img);
 
 % try to detect halves(1/2)
 % [row, col, type] = obtineNoteDoime(parameters,img);
@@ -21,7 +21,7 @@ for i = size(rowWhole,1):-1:1
 %         disp(abs(colWhole(i,1) - col(j,1)));
 %         disp(abs(colWhole(i,2) - col(j,2)));
        if(((abs(colWhole(i,1) - col(j,1)) <= 5) || (abs(colWhole(i,2) - col(j,2)) <= 5))...
-                && ((abs(colWhole(i,1) - col(j,1)) < parameters.noteHeight ) || (abs(colWhole(i,1) - col(j,1)) < parameters.noteHeight)))
+                && ((abs(rowWhole(i,1) - row(j,1)) < parameters.noteHeight ) || (abs(rowWhole(i,2) - row(j,2)) < parameters.noteHeight)))
            rowWhole(i,:) = [];
            colWhole(i,:) = [];
            break;
@@ -34,18 +34,30 @@ for i = 1:size(col,1)
         if ((i~=j) && (col(i,1) > col(j,1)))
             col([i,j],:) = col([j,i],:);
             row([i,j],:) = row([j,i],:);
+            notesLength([i,j]) = notesLength([j,i]);
         end
     end
 end
 
-obtainNoteValue(parameters,row,col);
-% figure,imshow(img);
-% hold all;
-% for i = 1:size(rowWhole,1)
-%     x = [ rowWhole(i,1), rowWhole(i,2), rowWhole(i,2) , rowWhole(i,1), rowWhole(i,1)];
-%     y = [ colWhole(i,1), colWhole(i,1), colWhole(i,2) , colWhole(i,2), colWhole(i,1)];
-%     plot( y, x, 'r-','linewidth',1);
-% end
+for i = 1:size(rowWhole,1)
+   notesLength = [notesLength;1]; 
+end
+disp(notesLength);
+disp(size(row));
+disp(size(notesLength));
+row = [row; rowWhole];
+col = [col; colWhole];
+type = 2;
+[row,col] = validateNotes(parameters,row,col,type,notesLength);
+
+[row,col] = obtainNoteValue(parameters,row,col);
+figure,imshow(img);
+hold all;
+for i = 1:size(row,1)
+    x = [ row(i,1), row(i,2), row(i,2) , row(i,1), row(i,1)];
+    y = [ col(i,1), col(i,1), col(i,2) , col(i,2), col(i,1)];
+    plot( y, x, 'r-','linewidth',1);
+end
 % keyboard();
 
 end

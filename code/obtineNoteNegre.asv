@@ -138,6 +138,7 @@ for i = 1:size(vertLines,2)
                         row = [row; max(1,row_aux(ii) - x_template), row_aux(ii)];
                         col = [col; max(1,l - addWidth + col_aux(ii) - y_template), l - addWidth + col_aux(ii)];
                         foundLines = [foundLines; i];
+                        notesLength = [notesLength; 4];
                         
                     end
                 end
@@ -226,6 +227,7 @@ for i = 1:size(vertLines,2)
                                 (((row_aux(ii) + row_aux(ii) - x_template)/2) > vertLines(i).point1(:,2)))
                             row_half = [row_half; max(1,row_aux(ii) - x_template), row_aux(ii)];
                             col_half = [col_half; max(1,l - addWidth + col_aux(ii) - y_template), l - addWidth + col_aux(ii)];
+                            notesLength = [notesLength; 2];
 
                         end
                     end
@@ -281,6 +283,7 @@ for i = 1:size(vertLines,2)
                             row = [row; max(1,row_aux(ii) - x_template), row_aux(ii)];
                             col = [col; max(1,l - addWidth + col_aux(ii) - y_template), l - addWidth + col_aux(ii)];
                             foundLines = [foundLines; i];
+                            notesLength = [notesLength; 4];
                         end
                     end
                 end
@@ -314,11 +317,13 @@ end
 
 % validate notes by eliminating overlapping detections
 type = 1;
-[row,col,foundLines] = validateNotes(parameters,row,col,type,foundLines);
-
-
+[row,col,notesLength,foundLines] = validateNotes(parameters,row,col,type,notesLength,foundLines);
+disp(size(row));
+disp(size(row_half));
+disp(size(notesLength));
+keyboard();
 type = 2;
-[row_half,col_half] = validateNotes(parameters,row_half,col_half,type);
+[row,col,notesLength] = validateNotes(parameters,row,col,type,notesLength);
 
 position = [];
 
@@ -381,19 +386,15 @@ end
 
 
 counter = obtainNoteLength(parameters,original,row,col,vertLines,foundLines,position);
-% disp(counter);
-
-for i = 1:size(row,1)
-   notesLength = [notesLength; 4]; 
-end
-for i = 1:size(row_half,1)
-   notesLength = [notesLength; 2]; 
-end
+disp(counter);
+disp(notesLength);
+disp(size(row));
+disp(size(notesLength));
+keyboard();
 % keyboard();
 % obtainNoteValue(parameters,row,col);
 row = [row; row_half];
 col = [col; col_half];
-
 
 % keyboard();
 

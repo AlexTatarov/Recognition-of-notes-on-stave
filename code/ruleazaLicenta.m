@@ -14,10 +14,24 @@ parameters.stave = imread('../data/images/Portativ4.png');
 % parameters.diez = imread('../data/images/diez.png');
 parameters.bemol = imread('../data/images/bemol.png');
 parameters.becar = imread('../data/images/becar.png');
+
+% disp(trebuie de perfectat notele);
+
 parameters.bigBlackEllipse = imread('../data/images/blackB.png');
+parameters.mediumBlackEllipse = imread('../data/images/blackMM.png');
 parameters.smallBlackEllipse = imread('../data/images/blackS.png');
 parameters.superSmallBlackEllipse = imread('../data/images/blackSS.png');
 parameters.extraSmallBlackEllipse = imread('../data/images/blackXS.png');
+
+parameters.note24 = imread('../data/images/note24.png');
+parameters.note20 = imread('../data/images/note20.png');
+parameters.note18 = imread('../data/images/note18.png');
+parameters.note15 = imread('../data/images/note15.png');
+parameters.note12 = imread('../data/images/note12.png');
+parameters.note10 = imread('../data/images/note10.png');
+parameters.note8  = imread('../data/images/note8.png');
+parameters.note5  = imread('../data/images/note5.png');
+parameters.note4  = imread('../data/images/note4.png');
 
 parameters.bigHalf = imread('../data/images/halfB.png');
 parameters.mediumHalf = imread('../data/images/halfM.png');
@@ -37,20 +51,39 @@ parameters.extraSmallWhole = imread('../data/images/wholeXS.png');
 
 parameters.cheie = imread('../data/images/signature-0.png');
 
-
-
-img = imread('../data/images/jingle-bells-2.jpeg');
+% noteHeight = 11
 % img = imread('../data/images/Simple.jpg');
+
+% noteHeight = 9
 % img = imread('../data/images/Joy.jpg');
+% img = imread('../data/images/Twinkle.jpg');
+% img = imread('../data/images/Battle.png');
 % img = imread('../data/images/House.jpg');
-% img = imread('../data/images/hallelujah.jpg');
+% img = imread('../data/images/Scale3.png');
+
+% noteHeight = 8
+img = imread('../data/images/jingle-bells-2.jpeg');
+% img = imread('../data/images/silence.jpg');
+
+% noteHeight = 7
+% img = imread('../data/images/Scale1.jpg');
+
+% noteHeight = 6
+% img = imread('../data/images/Let.jpg');
 % img = imread('../data/images/Cobzar.png');
+
+% noteHeight = 5
 % img = imread('../data/images/Lion.jpg');
 % img = imread('../data/images/Bohemian.jpg');
 % img = imread('../data/images/Vivaldi.jpg');
-img = imread('../data/images/Scale1.jpg');
-% img = imread('../data/images/Scale3.png');
-% img = imread('../data/images/Twinkle.jpg');
+
+% noteHeight = 3
+% img = imread('../data/images/hallelujah.jpg');
+
+
+
+
+
 % size(img);
 % img = rgb2gray(img);
 % imtool(img);
@@ -92,8 +125,8 @@ for i = 1:size(row,1)
         end
     end
 end
-disp(row);
-disp(col);
+% disp(row);
+% disp(col);
 
 d1 = size(img,1);
 d2 = size(img,2);
@@ -124,7 +157,7 @@ for i = 1:size(row,1)
         end
     end
     if(i==1)
-       parameters.noteHeigth = obtineInaltimeNota(lines); 
+       parameters.noteHeight = obtineInaltimeNota(lines); 
     end
     if((size(row,1) == 1) || (i == 2))
         parameters.firstLines = lines;
@@ -135,7 +168,6 @@ for i = 1:size(row,1)
         
         x = obtineSemneCheie(parameters,row,col,clefWidth);
 %         disp(x);
-        disp('S-a trecut pe aici');
     end
     
 %     for k = 1:length(lines)
@@ -150,10 +182,8 @@ for i = 1:size(row,1)
     
     
     
-    tic;
     % obtain the position of notes on that stave
     obtinePozitiaNotelor(parameters,lineImg);
-    toc;
 end
 
 

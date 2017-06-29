@@ -13,9 +13,8 @@ x = 0;
 
 right = col(1,2) + ((col(1,2) - col(1,1))*2);
 
-
 original = img(:,1:clefWidth(1)*2);
-figure,imshow(original);
+% figure,imshow(original);
 threshold = mean(original(:));
 
 original = original < threshold;
@@ -91,19 +90,19 @@ if(length(lines) > 1)
     %     disp(ceil(height*0.7));
     %     disp(abs(lines(1).point2(:,2) - lines(2).point2(:,2)));
     if((abs(lines(1).point1(:,2) - lines(2).point1(:,2)) <= ceil(height*0.8)) && (abs(lines(1).point2(:,2) - lines(2).point2(:,2)) <= ceil(height*0.8)))
-        disp('am intrat pe diez');
+%         disp('am intrat pe diez');
         for i = 1:length(lines)
             
             if((x == 0) && (abs(lines(i).point2(:,2) - horzLines(2).point1(:,2)) <= ceil(height/2))  ...
                     && ((lines(i).point2(:,2) - lines(i).point1(:,2)) <= (3*height)) )
-                disp('este fa diez');
+%                 disp('este fa diez');
                 x = 1;
                 continue;
             end
             
             if((x == 1) && ((lines(i).point2(:,2) <= horzLines(4).point1(:,2)) && (lines(i).point2(:,2) >= horzLines(3).point1(:,2)) )  ...
                     && (abs(lines(i).point2(:,2) - lines(i).point1(:,2)) <= (3*height)) )
-                disp('este do diez');
+%                 disp('este do diez');
                 x = 2;
                 continue;
                 
@@ -115,7 +114,7 @@ if(length(lines) > 1)
 %                         disp(3*height);
             if((x == 2) && (abs(lines(i).point2(:,2) - horzLines(2).point1(:,2)) - round(height/2) <= ceil(height/2) )  ...
                     && ((lines(i).point2(:,2) - lines(i).point1(:,2)) <= (3*height)))
-                disp('este sol diez');
+%                 disp('este sol diez');
                 x = 3;
                 continue;
                 
@@ -128,7 +127,7 @@ if(length(lines) > 1)
 %                         disp(3*height);
             if((x == 3) && ((abs(lines(i).point2(:,2) - horzLines(3).point1(:,2)) - round(height/2)) <= ceil(height/2) ) ...
                     && ((lines(i).point2(:,2) - lines(i).point1(:,2)) <= (3*height)))
-                disp('este re diez');
+%                 disp('este re diez');
                 x = 4;
                 continue;
                 
@@ -136,7 +135,7 @@ if(length(lines) > 1)
             
             if((x == 4) && ((abs(lines(i).point2(:,2) - horzLines(5).point1(:,2)) <= ceil(height/2) ) ) ...
                     && ((lines(i).point2(:,2) - lines(i).point1(:,2)) <= (3*height)) )
-                disp('este la diez');
+%                 disp('este la diez');
                 x = 5;
                 continue;
                 
@@ -144,7 +143,7 @@ if(length(lines) > 1)
             
             if((x == 5) && (abs(lines(i).point2(:,2) - horzLines(3).point1(:,2)) < ceil(height/2)) ...
                     && ((lines(i).point2(:,2) - lines(i).point1(:,2)) <= (3*height)) )
-                disp('este mi diez');
+%                 disp('este mi diez');
                 x = 6;
                 continue;
                 
@@ -152,7 +151,7 @@ if(length(lines) > 1)
             
             if((x == 6) && (abs(lines(i).point2(:,2) - horzLines.point1(:,1) - round(height/4)) < ceil(height/2))  ...
                     && ((lines(i).point2(:,2) - lines(i).point1(:,2)) <= (3*height)) )
-                disp('este si diez');
+%                 disp('este si diez');
                 x = 7;
                 continue;
                 
@@ -162,12 +161,12 @@ if(length(lines) > 1)
     end
 end
 if (x == 0)
-    disp('am intrat pe bemol');
+%     disp('am intrat pe bemol');
     for i = 1:length(lines)
         
         if((x == 0) && ((lines(i).point2(:,2) < horzLines(4).point1(:,2)) && (lines(i).point2(:,2) > horzLines(3).point1(:,2))) ...
                 && ((lines(i).point2(:,2) - lines(i).point1(:,2)) < (3*height)) )
-            disp('este si bemol');
+%             disp('este si bemol');
             x = -1;
             continue;
             
@@ -175,7 +174,7 @@ if (x == 0)
         
         if((x == -1) && ((lines(i).point2(:,2) < horzLines(4).point1(:,2)) && (lines(i).point2(:,2) > horzLines(3).point1(:,2)) )  ...
                 && (abs(lines(i).point2(:,2) - lines(i).point1(:,2)) < (3*height)) )
-            disp('este mi bemol');
+%             disp('este mi bemol');
             x = -2;
             continue;
             
@@ -183,7 +182,7 @@ if (x == 0)
         
         if((x == -2) && (abs(lines(i).point2(:,2) - horzLines(2).point1(:,2)) < ceil(height/2) )  ...
                 && ((lines(i).point2(:,2) - lines(i).point1(:,2)) < (3*height)))
-            disp('este la bemol');
+%             disp('este la bemol');
             x = -3;
             continue;
             
@@ -191,7 +190,7 @@ if (x == 0)
         
         if((x == -3) && ((abs(lines(i).point2(:,2) - horzLines(3).point1(:,2)) - round(height/4)) < ceil(height/2) ) ...
                 && ((lines(i).point2(:,2) - lines(i).point1(:,2)) < (3*height)))
-            disp('este re bemol');
+%             disp('este re bemol');
             x = -4;
             continue;
             
@@ -199,7 +198,7 @@ if (x == 0)
         
         if((x == -4) && ((abs(lines(i).point2(:,2) - horzLines(5).point1(:,2)) < ceil(height/2) ) ) ...
                 && ((lines(i).point2(:,2) - lines(i).point1(:,2)) < (3*height)) )
-            disp('este sol bemol');
+%             disp('este sol bemol');
             x = -5;
             continue;
             
@@ -207,7 +206,7 @@ if (x == 0)
         
         if((x == -5) && (abs(lines(i).point2(:,2) - horzLines(3).point1(:,2)) < ceil(height/2)) ...
                 && ((lines(i).point2(:,2) - lines(i).point1(:,2)) < (3*height)) )
-            disp('este do bemol');
+%             disp('este do bemol');
             x = -6;
             continue;
             
@@ -215,14 +214,14 @@ if (x == 0)
         
         if((x == -6) && (abs(lines(i).point2(:,2) - horzLines.point1(:,1) - round(height/4)) < ceil(height/2))  ...
                 && ((lines(i).point2(:,2) - lines(i).point1(:,2)) < (3*height)) )
-            disp('este fa bemol');
+%             disp('este fa bemol');
             x = -7;
             continue; 
         end 
     end
 end
 
-afisareLinii(lines,dilateBW);
+% afisareLinii(lines,dilateBW);
 fprintf('Avem raspunsul %d\n',x);
 % keyboard();
 

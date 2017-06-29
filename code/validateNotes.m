@@ -1,4 +1,4 @@
-function [ rows, cols, foundLines ] = validateNotes(parameters, rows, cols, type, foundLines)
+function [ rows, cols,foundLines ] = validateNotes(parameters, rows, cols, type, foundLines)
 % validate notes by eliminating the overlaping/redundant detections
 
 
@@ -64,17 +64,17 @@ if (size(cols,1) > 0)
     else
         gap = 5;
     end
-    
+    verticalGap = ceil(parameters.noteHeight*2/3);
     for i = size(rows,1):-1:1
         i = min(i,size(rows,1));
         for j = i-1:-1:1
             i = min(i,size(rows,1));
             
             if((i ~= j) && ...
-                    (((abs(cols(j,1) - cols(i,1)) < gap) && (abs(rows(j,2) - rows(i,2)) < gap)) ||...
-                    ((abs(cols(j,1) - cols(i,1)) < gap) && (abs(rows(j,1) - rows(i,1)) < gap)) ||...
-                    ((abs(cols(j,2) - cols(i,2)) < gap) && (abs(rows(j,2) - rows(i,2)) < gap)) ||...
-                    ((abs(cols(j,2) - cols(i,2)) < gap) && (abs(rows(j,1) - rows(i,1)) < gap))))
+                    (((abs(cols(j,1) - cols(i,1)) < gap) && (abs(rows(j,2) - rows(i,2)) < verticalGap)) ||...
+                    ((abs(cols(j,1) - cols(i,1)) < gap) && (abs(rows(j,1) - rows(i,1)) < verticalGap)) ||...
+                    ((abs(cols(j,2) - cols(i,2)) < gap) && (abs(rows(j,2) - rows(i,2)) < verticalGap)) ||...
+                    ((abs(cols(j,2) - cols(i,2)) < gap) && (abs(rows(j,1) - rows(i,1)) < verticalGap))))
                 if(cols(i,1) > cols(j,1))
                     if (type == 1)
                         foundLines(i) = [];
