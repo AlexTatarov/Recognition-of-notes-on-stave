@@ -1,15 +1,19 @@
 function [ row, col, type, notesLength ] = obtineNoteNegre( parameters,img )
 
 fprintf('Inaltimea notelor este %d\n',parameters.noteHeight);
-
+% figure,imshow(img);
 original = img;
 threshold = mean(original(:));
 original = original < threshold;
+% figure,imshow(original);
 
 se = strel('line',9,90);
 
 erodeBW = imerode(original,se);
+% figure,imshow(erodeBW);
+
 dilateBW = imdilate(erodeBW,se);
+% figure,imshow(dilateBW);
 
 % figure,imshow(original);
 [H,T,R] = hough(dilateBW,'Theta',-5:0.5:5);
@@ -21,12 +25,13 @@ P  = houghpeaks(H,500,'Threshold',0.05*max(H(:)),'NHoodSize',[3 3]);
 vertLines = houghlines(dilateBW,T,R,P,'FillGap',3,'MinLength',11);
 % afisareLinii(vertLines,dilateBW);
 % keyboard();
+% keyboard();
 addWidth = round(parameters.currentClefWidth/2);
 
 [d1,d2] = size(img);
 
 used = zeros(1,d2);
-figure,imshow(img);
+% figure,imshow(img);
 
 max_val = 0;
 type = 0 ;
@@ -296,13 +301,13 @@ end
 %---------------------------------------------------------------------------
 
 % show all detections
-figure,imshow(img);
-hold all;
-for i = 1:size(row,1)
-    x = [ row(i,1), row(i,2), row(i,2) , row(i,1), row(i,1)];
-    y = [ col(i,1), col(i,1), col(i,2) , col(i,2), col(i,1)];
-    plot( y, x, 'r-','linewidth',1);
-end
+% figure,imshow(img);
+% hold all;
+% for i = 1:size(row,1)
+%     x = [ row(i,1), row(i,2), row(i,2) , row(i,1), row(i,1)];
+%     y = [ col(i,1), col(i,1), col(i,2) , col(i,2), col(i,1)];
+%     plot( y, x, 'r-','linewidth',1);
+% end
 %
 % figure,imshow(img);
 % hold all;
@@ -351,13 +356,13 @@ end
 
 
 % show detections after validation
-figure,imshow(img);
-hold all;
-for i = 1:size(row,1)
-    x = [ row(i,1), row(i,2), row(i,2) , row(i,1), row(i,1)];
-    y = [ col(i,1), col(i,1), col(i,2) , col(i,2), col(i,1)];
-    plot( y, x, 'b-','linewidth',1);
-end
+% figure,imshow(img);
+% hold all;
+% for i = 1:size(row,1)
+%     x = [ row(i,1), row(i,2), row(i,2) , row(i,1), row(i,1)];
+%     y = [ col(i,1), col(i,1), col(i,2) , col(i,2), col(i,1)];
+%     plot( y, x, 'b-','linewidth',1);
+% end
 
 
 % for i = 1:size(row_half,1)
@@ -381,11 +386,17 @@ end
 
 
 counter = obtainNoteLength(parameters,original,row,col,vertLines,foundLines,position);
-% disp(counter);
-
+% disp(foundLines);
+% disp(size(row));
 for i = 1:size(row,1)
    notesLength = [notesLength; 4]; 
 end
+
+for i = 1:size(counter,1)
+   putere = min(2,counter(i));
+   notesLength(i) = notesLength(i) * (2^putere); 
+end
+
 for i = 1:size(row_half,1)
    notesLength = [notesLength; 2]; 
 end

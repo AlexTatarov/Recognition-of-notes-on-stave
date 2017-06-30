@@ -80,7 +80,7 @@ for i = 1:size(row,1)
         end
     end
 end
-disp(counter);
+% disp(counter);
 counter_aux = counter;
 % afisareLinii(obliqueLines,dilateBW);
 % keyboard();

@@ -1,0 +1,53 @@
+4 Mi O2
+4 Mi O2
+2 Mi O2
+4 Mi O2
+4 Mi O2
+2 Mi O2
+4 Mi O2
+4 Sol O2
+4 Do O2
+4 Re O2
+1 Mi O2
+
+4 Fa O2
+4 Fa O2
+4 Fa O2
+4 Fa O2
+4 Fa O2
+4 Mi O2
+4 Mi O2
+4 Mi O2
+4 Mi O2
+4 Re O2
+4 Re O2
+4 Mi O2
+2 Re O2
+2 Sol O2
+
+4 Mi O2
+4 Mi O2
+2 Mi O2
+4 Mi O2
+4 Mi O2
+2 Mi O2
+4 Mi O2
+4 Sol O2
+4 Do O2
+4 Re O2
+1 Mi O2
+
+4 Fa O2
+4 Fa O2
+4 Fa O2
+4 Fa O2
+4 Fa O2
+4 Mi O2
+4 Mi O2
+4 Mi O2
+4 Sol O2
+4 Sol O2
+4 Fa O2
+4 Re O2
+1 Do O2
+

@@ -66,11 +66,11 @@ parameters.cheie = imread('../data/images/signature-0.png');
 % img = imread('../data/images/Scale3.png');
 
 % noteHeight = 8
-img = imread('../data/images/jingle-bells-2.jpeg');
+% img = imread('../data/images/jingle-bells-2.jpeg');
 % img = imread('../data/images/silence.jpg');
 
 % noteHeight = 7
-% img = imread('../data/images/Scale1.jpg');
+img = imread('../data/images/Scale1.jpg');
 
 % noteHeight = 6
 % img = imread('../data/images/Let.jpg');
@@ -103,16 +103,15 @@ treshold = size(img,2)/4;
 [row, col, clefHeight, clefWidth] = eliminaCheiFalse(row,col,clefHeight,clefWidth,treshold);
 
 
-if(parameters.afisare == 1)
-    figure, imshow(img);
-    hold on;
-    for i = 1:size(row,1)
-        x = [ row(i,1), row(i,2), row(i,2) , row(i,1), row(i,1)];
-        y = [ col(i,1), col(i,1), col(i,2) , col(i,2), col(i,1)];
-        plot( y, x, 'b-','linewidth',1);
-    end
-    hold off;
+if(parameters.
+figure, imshow(img);
+hold on;
+for i = 1:size(row,1)
+    x = [ row(i,1), row(i,2), row(i,2) , row(i,1), row(i,1)];
+    y = [ col(i,1), col(i,1), col(i,2) , col(i,2), col(i,1)];
+    plot( y, x, 'b-','linewidth',1);
 end
+hold off;
 
 % sort all clefs
 for i = 1:size(row,1)
@@ -123,6 +122,8 @@ for i = 1:size(row,1)
         end
     end
 end
+% disp(row);
+% disp(col);
 
 d1 = size(img,1);
 d2 = size(img,2);
@@ -135,6 +136,7 @@ for i = 1:size(row,1)
     
     while(validation == false)
         [lines, imgBW] = obtinePozitiaPortativului(lineImg,gap);
+        %         afisareLinii(lines,imgBW);
         
         [lines,validation] = validareLinii(lines);
         gap = gap + 5;
@@ -145,9 +147,6 @@ for i = 1:size(row,1)
     
     if(length(lines) ~= 5)
         disp('Error');
-    end
-    if(parameters.afisare == 1)
-        afisareLinii(lines,imgBW);
     end
     %     afisareLinii(lines,imgBW);
     % sort lines in ascending order
@@ -163,18 +162,18 @@ for i = 1:size(row,1)
         
         parameters.firstLines = lines;
         parameters.firstImg = lineImg;
-%         disp(i);
-%         figure,imshow(parameters.firstImg);
+        disp(i);
+        figure,imshow(parameters.firstImg);
         % obtain the height of a note
         
         x = obtineSemneCheie(parameters,row,col,clefWidth);
-%         disp(x);
+        disp(x);
     end
     
     %     for k = 1:length(lines)
     %        disp(lines(k).point1);
     %     end
-%     fprintf('Linii verticale sunt %d\n',length(lines));
+    fprintf('Linii verticale sunt %d\n',length(lines));
     parameters.horizontalLines = lines;
     parameters.currentClefHeight = clefHeight(i);
     parameters.currentClefWidth = clefWidth(i);

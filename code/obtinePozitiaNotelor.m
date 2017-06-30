@@ -1,4 +1,4 @@
-function [  ] = obtinePozitiaNotelor(parameters, img )
+function [ M,L ] = obtinePozitiaNotelor(parameters, img, x )
 
 tic;
 if(size(img,3) > 1)
@@ -42,21 +42,30 @@ end
 for i = 1:size(rowWhole,1)
    notesLength = [notesLength;1]; 
 end
-disp(notesLength);
-disp(size(row));
-disp(size(notesLength));
+
+% disp(notesLength);
+% disp(size(row));
+% disp(size(notesLength));
 row = [row; rowWhole];
 col = [col; colWhole];
 type = 2;
 [row,col] = validateNotes(parameters,row,col,type,notesLength);
 
-[row,col] = obtainNoteValue(parameters,row,col);
-figure,imshow(img);
-hold all;
-for i = 1:size(row,1)
-    x = [ row(i,1), row(i,2), row(i,2) , row(i,1), row(i,1)];
-    y = [ col(i,1), col(i,1), col(i,2) , col(i,2), col(i,1)];
-    plot( y, x, 'r-','linewidth',1);
+[row,col,M,L] = obtainNoteValue(parameters,row,col,notesLength,x);
+if(parameters.afisare == 1)
+    figure,imshow(img);
+    hold all;
+    for i = 1:size(row,1)
+        x = [ row(i,1), row(i,2), row(i,2) , row(i,1), row(i,1)];
+        y = [ col(i,1), col(i,1), col(i,2) , col(i,2), col(i,1)];
+        if(notesLength(i) == 1)
+            plot( y, x, 'y-','linewidth',1);
+        elseif(notesLength(i) == 2)
+            plot( y, x, 'g-','linewidth',1);
+        elseif(notesLength(i) == 4)
+            plot( y, x, 'b-','linewidth',1);
+        end
+    end
 end
 % keyboard();
 

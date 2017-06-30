@@ -8,20 +8,25 @@ if(size(parameters.firstImg,3) > 1)
 else
     img = parameters.firstImg;
 end
+figure,imshow(img);
 x = 0;
 [h,w] = size(img);
 
 right = col(1,2) + ((col(1,2) - col(1,1))*2);
 
 original = img(:,1:clefWidth(1)*2);
-% figure,imshow(original);
+figure,imshow(original);
 threshold = mean(original(:));
 
 original = original < threshold;
 se = strel('line',9,90);
+% figure,imshow(original);
 
 erodeBW = imerode(original,se);
+% figure,imshow(erodeBW);
 dilateBW = imdilate(erodeBW,se);
+% figure,imshow(dilateBW);
+
 [H,T,R] = hough(dilateBW,'Theta',-4:4);
 %imshow(dilateBW);
 P  = houghpeaks(H,200,'Threshold',0.03*max(H(:)),'NHoodSize',[1 1]);
@@ -45,7 +50,7 @@ for i = 1:length(lines)
     end
 end
 % afisareLinii(lines,dilateBW);
-
+% keyboard();
 % unite lines
 d = length(lines);
 i = 1;
@@ -222,7 +227,7 @@ if (x == 0)
 end
 
 % afisareLinii(lines,dilateBW);
-fprintf('Avem raspunsul %d\n',x);
+% fprintf('Avem raspunsul %d\n',x);
 % keyboard();
 
 end
