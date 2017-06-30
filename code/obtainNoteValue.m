@@ -8,7 +8,7 @@ fisier = parameters.rezultat;
 M = [];
 L = [];
 third = round(distance/3);
-disp('Note values for this line are:');
+% disp('Note values for this line are:');
 i = 0;
 while(i<size(row,1)) 
     i = i + 1;

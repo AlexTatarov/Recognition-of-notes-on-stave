@@ -97,13 +97,13 @@ type = 0;
 [row,col] = validateNotes(parameters,row,col,type);
 
 % show detections after validation
-figure,imshow(img);
-hold all;
-for i = 1:size(row,1)
-    x = [ row(i,1), row(i,2), row(i,2) , row(i,1), row(i,1)];
-    y = [ col(i,1), col(i,1), col(i,2) , col(i,2), col(i,1)];
-    plot( y, x, 'b-','linewidth',1);
-end
+% figure,imshow(img);
+% hold all;
+% for i = 1:size(row,1)
+%     x = [ row(i,1), row(i,2), row(i,2) , row(i,1), row(i,1)];
+%     y = [ col(i,1), col(i,1), col(i,2) , col(i,2), col(i,1)];
+%     plot( y, x, 'b-','linewidth',1);
+% end
 
 % get note values by comparing its middle height point with the positions
 % of the horizontal lines

@@ -233,7 +233,7 @@ dilateBW = imdilate(erodeBW,se);
 P  = houghpeaks(H,200,'Threshold',0.01*max(H(:)),'NHoodSize',[5 5]);
 %x = T(P(:,2)); y = R(P(:,1));
 minLength = round(parameters.noteHeight*1.5);
-fprintf('Lungimea minima este %d\n',minLength);
+% fprintf('Lungimea minima este %d\n',minLength);
 % figure,imshow(dilateBW);
 obliqueLines = houghlines(dilateBW,T,R,P,'FillGap',5,'MinLength',minLength);
 % for i = 1:length(obliqueLines)

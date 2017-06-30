@@ -8,14 +8,14 @@ if(size(parameters.firstImg,3) > 1)
 else
     img = parameters.firstImg;
 end
-figure,imshow(img);
+% figure,imshow(img);
 x = 0;
 [h,w] = size(img);
 
 right = col(1,2) + ((col(1,2) - col(1,1))*2);
 
 original = img(:,1:clefWidth(1)*2);
-figure,imshow(original);
+% figure,imshow(original);
 threshold = mean(original(:));
 
 original = original < threshold;

@@ -15,8 +15,8 @@ parameters.stave = imread('../data/images/Portativ4.png');
 parameters.bemol = imread('../data/images/bemol.png');
 parameters.becar = imread('../data/images/becar.png');
 parameters.rezultat = fopen('../data/rezultat.txt','w');
-parameters.afisare = 0;
-parameters.sound = 1;
+parameters.afisare = 1;
+parameters.sound = 0;
 
 
 % disp(trebuie de perfectat notele);
@@ -66,7 +66,7 @@ parameters.cheie = imread('../data/images/signature-0.png');
 % img = imread('../data/images/Scale3.png');
 
 % noteHeight = 8
-img = imread('../data/images/jingle-bells-2.jpeg');
+% img = imread('../data/images/jingle-bells-2.jpeg');
 % img = imread('../data/images/silence.jpg');
 
 % noteHeight = 7
@@ -85,8 +85,8 @@ img = imread('../data/images/jingle-bells-2.jpeg');
 % img = imread('../data/images/hallelujah.jpg');
 
 % noteHeight = ?
-% img = imread('../data/images/Happy.png');
-
+% img = imread('../data/images/Happy5.jpg');
+% img = imread('../data/images/Bridal.png');
 
 
 
@@ -380,7 +380,6 @@ if(parameters.sound == 1)
     end
     player = audioplayer(y, 22050);
     player.play();
-    keyboard();
 end
 
 

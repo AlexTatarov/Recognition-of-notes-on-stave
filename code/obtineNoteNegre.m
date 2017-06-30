@@ -1,6 +1,6 @@
 function [ row, col, type, notesLength ] = obtineNoteNegre( parameters,img )
 
-fprintf('Inaltimea notelor este %d\n',parameters.noteHeight);
+% fprintf('Inaltimea notelor este %d\n',parameters.noteHeight);
 % figure,imshow(img);
 original = img;
 threshold = mean(original(:));
